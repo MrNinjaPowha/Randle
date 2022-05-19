@@ -74,7 +74,7 @@ class HighscoreTable(list[list]):
             print(new_table)
 
         else:
-            print('No results to display')
+            print('No results to display.')
 
         if pause:
             print('\nPress [Enter] to go back.')
