@@ -41,25 +41,14 @@ class App:
 
     def settings_menu(self):
         old_settings = self.game.settings.copy()
-        example_headers = ['#', 'Name', 'Guesses', 'Word', 'Time']
-        example_table = [
-            [1, 'The Best', 5, 'introduction', 135],
-            [2, 'I Tried', 12, 'remedy', 218]
-        ]
         menu_open = True
 
         while menu_open:
             cc()
-            table = Table(
-                style_name=Compositions._fields[self.game.settings["table_style"]],
-                rows=example_table,
-                headers=example_headers
-            )
 
             print(
                 f'[1] Turn {"off" if self.game.settings["colorblind"] else "on"} colorblind mode\n'
                 f'[2] Leaderboard style: {self.game.settings["table_style"]}\n'
-                f'{table}\n'
 
                 '\n[S] Save settings\n'
                 '[C] Cancel'
@@ -71,11 +60,7 @@ class App:
                 self.game.settings['colorblind'] = not self.game.settings['colorblind']
 
             if command == '2':
-                if self.game.settings['table_style'] + 1 >= len(Compositions._fields):
-                    self.game.settings['table_style'] = 0
-
-                else:
-                    self.game.settings['table_style'] += 1
+                self.table_style_menu()
 
             elif command.casefold() in ('s', 'c'):
                 if old_settings != self.game.settings:  # if settings were changed then confirmation is required
@@ -104,6 +89,56 @@ class App:
 
                 else:
                     menu_open = False
+
+    def table_style_menu(self):
+        example_headers = ['#', 'Name', 'Guesses', 'Word', 'Time']
+        example_table = [
+            [1, 'First', 5, 'example', 135],
+            [2, 'Second', 12, 'test', 218],
+            [3, 'Third', 15, 'table', 254]
+        ]
+
+        cc()
+
+        while True:
+            table = Table(
+                style_name=Compositions._fields[self.game.settings["table_style"]],
+                rows=example_table,
+                headers=example_headers
+            )
+
+            print(
+                f'Leaderboard style: {self.game.settings["table_style"]}\n\n'
+                
+                f'{table}\n\n'
+                
+                f'Enter a number between 0 and {len(Compositions._fields)} to select a style or press [Enter] to '
+                f'cycle through all options\n'
+                f'[S] Save and go back'
+            )
+
+            command = input()
+
+            if command.casefold() == 's':
+                break
+
+            elif command.isnumeric():
+                if int(command) > len(Compositions._fields):
+                    cc()
+                    print(f'{command} is too large.')
+
+                else:
+                    self.game.settings['table_style'] = int(command)
+                    cc()
+
+            else:
+                if self.game.settings['table_style'] + 1 >= len(Compositions._fields):
+                    self.game.settings['table_style'] = 0
+
+                else:
+                    self.game.settings['table_style'] += 1
+
+                cc()
 
     def highscore_menu(self):
         while True:
