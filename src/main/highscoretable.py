@@ -44,7 +44,7 @@ class HighscoreTable(list[list]):
         """
         Prints a prettyTable from self.
 
-        :param style: Table styling
+        :param style: Table styling.
         :param pause: Adds an empty input at the end.
         :param cutoff: Shortens table to this length.
         :param search: Includes only highscore entries with a name matching this parameter.

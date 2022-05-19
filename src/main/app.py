@@ -113,7 +113,7 @@ class App:
                 f'{table}\n\n'
                 
                 f'Enter a number between 0 and {len(Compositions._fields)} to select a style or press [Enter] to '
-                f'cycle through all options\n'
+                f'cycle through all options.\n'
                 f'[S] Save and go back'
             )
 
@@ -173,7 +173,7 @@ class App:
             'Each guess must be a valid word that is longer than 2 letters.\n\n'
 
             'After you have guessed, the word you just guessed will appear again but each letter will get a\n'
-            'background color that shows how close your guess is to the correct word\n\n'
+            'background color that shows how close your guess is to the correct word.\n\n'
 
             'Example (the correct word is LOBBY):\n'
             f'{self.game.check_guess("table", "lobby")}\n\n\n'
