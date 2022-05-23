@@ -16,7 +16,7 @@ class App:
             print(
                 'Welcome to Randle, Wordle but with an unknown length of the word.\n'
                 '[1] Start\n'
-                '[2] Highscores\n'
+                '[2] Leaderboard\n'
                 '[3] Settings\n'
                 '[4] Help\n'
                 '[Q] Quit'
