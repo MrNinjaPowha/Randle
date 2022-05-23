@@ -6,7 +6,7 @@ import pickle
 # This script will also remove any words containing any uppercase letters
 
 RAW_WORDLIST_PATH = 'wordlist_raw.txt'
-OUTPUT_PATH = 'wordlist.pkl'
+OUTPUT_PATH = 'wordlist.pkl'  # If you change this, make sure to also change the wordlist's location in main.py
 MIN_LENGTH = 3
 
 
