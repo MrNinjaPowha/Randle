@@ -5,8 +5,8 @@ def main():
     app = App()
     app.set_file_locations(
         wordlist='resources/wordlist/wordlist.pkl',
-        highscore='resources/highscore/highscore.pkl',
-        settings='resources/settings.pkl'
+        highscore='resources/data/highscore.pkl',
+        settings='resources/data/settings.pkl'
     )
     app.start()
 

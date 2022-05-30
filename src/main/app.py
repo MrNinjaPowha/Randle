@@ -1,3 +1,5 @@
+import os.path
+
 from .prettyTables import Table
 from .prettyTables.style_compositions import Compositions
 
@@ -189,7 +191,13 @@ class App:
         )
         input()
 
-    def set_file_locations(self, wordlist: str, highscore: str, settings: str):
-        self.game.set_wordlist(wordlist)
-        self.game.highscore_list.set_file_location(highscore)
-        self.game.set_settings_location(settings)
+    def set_file_locations(self, **kwargs: str):
+        for arg in kwargs.values():
+            # creates any missing folders
+            path = '/'.join(arg.split('/')[:-1])
+            if not os.path.exists(path):
+                os.mkdir(path)
+
+        self.game.set_wordlist(kwargs.get('wordlist'))
+        self.game.highscore_list.set_file_location(kwargs.get('highscore'))
+        self.game.set_settings_location(kwargs.get('settings'))
