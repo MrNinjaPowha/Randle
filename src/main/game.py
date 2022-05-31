@@ -96,6 +96,7 @@ class Game:
                     print('Name has to be between 3 and 20 characters')
 
             self.highscore_list.insert(highscore_place, [name, len(self.guesses), self.answer, final_time])
+            self.highscore_list.save()
 
         cc()
         print('Leaderboard Top 10:\n')
