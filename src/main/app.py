@@ -51,6 +51,7 @@ class App:
             print(
                 f'[1] Turn {"off" if self.game.settings["colorblind"] else "on"} colorblind mode\n'
                 f'[2] Leaderboard style: {self.game.settings["table_style"]}\n'
+                f'[3] Turn {"off" if self.game.settings["animations"] else "on"} animations\n'
 
                 '\n[S] Save settings\n'
                 '[C] Cancel'
@@ -63,6 +64,9 @@ class App:
 
             if command == '2':
                 self.table_style_menu()
+
+            if command == '3':
+                self.game.settings['animations'] = not self.game.settings['animations']
 
             elif command.casefold() in ('s', 'c'):
                 if old_settings != self.game.settings:  # if settings were changed then confirmation is required
