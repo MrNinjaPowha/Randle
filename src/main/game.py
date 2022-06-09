@@ -1,5 +1,5 @@
 import pickle
-from time import time
+import time
 from random import randrange
 from .consolefunctions import clear_console as cc, color_text, rgb
 from .highscoretable import HighscoreTable
@@ -9,7 +9,8 @@ class Game:
     def __init__(self):
         self.settings = {
             'colorblind': False,
-            'table_style': 0
+            'table_style': 0,
+            'animations': True
         }
 
         self.wordlist_location = 'wordlist.pkl'
@@ -23,10 +24,10 @@ class Game:
         self.guesses = []
 
     def run(self):
-        """Main function of a game class. It resets values and runs the game."""
+        """ Main function of a game class. It resets values and runs the game. """
         self.answer = self.wordlist[randrange(len(self.wordlist))]
         self.guesses.clear()
-        start_time = time()
+        start_time = time.time()
 
         cc()
 
@@ -34,9 +35,7 @@ class Game:
 
         while guessing:
             while True:
-                for guess in self.guesses:
-                    # prints previous guesses
-                    print(guess)
+                self.print_guesses()
 
                 if self.guesses:
                     print('')
@@ -62,7 +61,7 @@ class Game:
 
             if guess == self.answer:
                 self.guesses.append(self.answer)
-                self.win(time() - start_time)
+                self.win(time.time() - start_time)
                 guessing = False
 
             else:
@@ -71,7 +70,7 @@ class Game:
             cc()
 
     def win(self, guess_time: float):
-        """Finishes game and possibly adds player to leaderboard"""
+        """ Finishes game and possibly adds player to leaderboard """
         final_time = round(guess_time)
 
         cc()
@@ -113,7 +112,7 @@ class Game:
             self.highscore_list.print(self.settings['table_style'])
 
     def end(self):
-        """Reveals correct word if player gives up"""
+        """ Reveals correct word if player gives up. """
         cc()
         print(
             f'The correct word was {self.answer}\n\n'
@@ -121,9 +120,22 @@ class Game:
         )
         input()
 
-    def check_guess(self, guess: str, answer: str = None) -> str:
+    def print_guesses(self):
+        for i, guess in enumerate(self.guesses):
+            if isinstance(guess, str) or not self.settings['animations']:
+                print(guess)
+
+            else:
+                for j in range(len(guess)):
+                    time.sleep(0.1 + 0.5 * 0.9 ** len(guess))
+                    print(f'\r{"".join(guess[:j+1])}', end='')
+
+                self.guesses[i] = ''.join(guess)
+
+    def check_guess(self, guess: str, answer: str = None) -> list | str:
         """
         Returns the guess formatted for a Wordle-like game with colored backgrounds.
+        Returns it as a list if animations are on to be able to print each letter for itself.
         If answer is left empty, then this function will use the answer for the current game.
         """
         output = []
@@ -154,7 +166,7 @@ class Game:
                 else:
                     output.append(self.color_letter(letter, 'gray'))
 
-        return ''.join(output)
+        return output if self.settings['animations'] else ''.join(output)
 
     def color_letter(self, letter: str, color: str) -> str:
         """ Colors a string based on color parameter. Also considers the colorblind option. """
