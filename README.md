@@ -12,5 +12,5 @@ leaderboard that sorts primarily on how many guesses
 you used to get the correct word. If two players get
 the same amount of guesses the one with a longer word
 goes above on the leaderboard. If the two players also
-have the same word length then the one with a shorter
+have the same word length, then the one with a shorter
 time wins.
