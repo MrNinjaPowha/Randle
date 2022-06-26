@@ -60,7 +60,7 @@ class Game:
                         print(f'{guess.capitalize()} is not a valid word.\n')
 
             if guess == self.answer:
-                self.guesses.append(self.answer)
+                self.guesses.append(self.check_guess(self.answer))
                 self.win(time.time() - start_time)
                 guessing = False
 
@@ -73,10 +73,15 @@ class Game:
         """ Finishes game and possibly adds player to leaderboard """
         final_time = round(guess_time)
 
+        if self.settings['animations']:
+            cc()
+            self.print_guesses()
+            time.sleep(0.5)
+
         cc()
         print(
             'Congratulations! You guessed the correct word:\n'
-            f'{self.check_guess(self.answer)}'
+            f'{self.guesses[-1]}'
         )
 
         highscore_place = self.highscore_list.get_place(['', len(self.guesses), self.answer, final_time])
@@ -108,8 +113,6 @@ class Game:
                 highscore_place if highscore_place < 100 else '?',
                 'You', len(self.guesses), self.answer, final_time
             ])
-
-            self.highscore_list.print(self.settings['table_style'])
 
     def end(self):
         """ Reveals correct word if player gives up. """
