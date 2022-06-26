@@ -142,34 +142,64 @@ class Game:
         If answer is left empty, then this function will use the answer for the current game.
         """
         output = []
+        green = []
+        yellow = []
+        final_output = []
         answer = self.answer if answer is None else answer
 
         if len(guess) < len(answer) and answer[:len(guess)] == guess:
             # if all letters in guess were correct but the answer is longer
             for letter in guess:
-                output.append(self.color_letter(letter, 'green'))
+                output.append((letter, 'green'))
+                green.append(letter)
 
-            output.append(self.color_letter('...', 'red'))
+            output.append(('...', 'red'))
 
         else:
             for i, letter in enumerate(guess):
                 if i < len(answer):  # makes sure that answer does not go out of range
                     if letter == answer[i]:
-                        output.append(self.color_letter(letter, 'green'))
+                        output.append((letter, 'green'))
+                        green.append(letter)
 
                     elif letter in answer:
-                        output.append(self.color_letter(letter, 'yellow'))
+                        output.append((letter, 'yellow'))
 
                     else:
-                        output.append(self.color_letter(letter, 'gray'))
+                        output.append((letter, 'gray'))
 
                 elif letter in answer:
-                    output.append(self.color_letter(letter, 'yellow'))
+                    output.append((letter, 'yellow'))
 
                 else:
-                    output.append(self.color_letter(letter, 'gray'))
+                    output.append((letter, 'gray'))
 
-        return output if self.settings['animations'] else ''.join(output)
+        for letter, color in output:
+            if color == 'green':
+                final_output.append(self.color_letter(letter, 'green'))
+
+            elif color == 'yellow':
+                if letter in green:
+                    if green.count(letter) != answer.count(letter) and letter not in yellow:
+                        final_output.append(self.color_letter(letter, 'yellow'))
+
+                    else:
+                        final_output.append(self.color_letter(letter, 'gray'))
+
+                elif letter not in yellow:
+                    final_output.append(self.color_letter(letter, 'yellow'))
+                    yellow.append(letter)
+
+                else:
+                    final_output.append(self.color_letter(letter, 'gray'))
+
+            elif color == 'gray':
+                final_output.append(self.color_letter(letter, 'gray'))
+
+            elif color == 'red':
+                final_output.append(self.color_letter(letter, 'red'))
+
+        return final_output if self.settings['animations'] else ''.join(final_output)
 
     def color_letter(self, letter: str, color: str) -> str:
         """ Colors a string based on color parameter. Also considers the colorblind option. """
