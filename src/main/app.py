@@ -173,6 +173,11 @@ class App:
                 break
 
     def help_menu(self):
+        examples = [self.game.check_guess('table', 'lobby'), self.game.check_guess('heal', 'healthy')]
+        if self.game.settings["animations"]:
+            for i in range(2):
+                examples[i] = ''.join(examples[i])
+
         cc()
         print(
             'In Randle the goal is to guess a randomized word.\n'
@@ -182,14 +187,14 @@ class App:
             'background color that shows how close your guess is to the correct word.\n\n'
 
             'Example (the correct word is LOBBY):\n'
-            f'{self.game.check_guess("table", "lobby")}\n\n\n'
+            f'{examples[0]}\n\n\n'
 
             'Since the word can be any length longer than 2 letters, you might not know how long the word is.\n'
             'However, if you make a guess where all the letters were correct, but the correct word is longer,\n'
             'then you will get an indication that there are still more letters to find.\n\n'
 
             'Example (the correct word is HEALTHY):\n'
-            f'{self.game.check_guess("heal", "healthy")}\n\n'
+            f'{examples[1]}\n\n'
 
             'Press [Enter] to go back.'
         )
