@@ -9,7 +9,12 @@ from .highscoretable import HighscoreTable
 
 class Game:
     def __init__(self):
-        self.settings = {"colorblind": False, "table_style": 0, "animations": True}
+        self.settings = {
+            "colorblind": False,
+            "table_style": 0,
+            "animations": True,
+            "keyboard": True,
+        }
 
         self.wordlist_location = "wordlist.pkl"
         self.highscore_location = "highscore.pkl"
@@ -41,7 +46,8 @@ class Game:
                     print("\n")
                 print("Enter a valid word to make a guess or give up by entering /Q")
 
-                print(keyboard)
+                if self.settings["keyboard"]:
+                    print(keyboard)
 
                 guess = input().casefold()
 
@@ -146,7 +152,7 @@ class Game:
                 self.guesses[i] = "".join(guess)
 
     def check_guess(
-        self, guess: str, keyboard: Keyboard, answer: str = None
+        self, guess: str, keyboard: Keyboard = None, answer: str = None
     ) -> list | str:
         """
         Returns the guess formatted for a Wordle-like game with colored backgrounds.
@@ -189,7 +195,8 @@ class Game:
         for letter, color in output:
             if color == "green":
                 final_output.append(self.color_letter(letter, "green"))
-                keyboard.increase_key_state(letter, "correct")
+                if keyboard:
+                    keyboard.increase_key_state(letter, "correct")
 
             elif color == "yellow":
                 if letter in green:
@@ -205,15 +212,18 @@ class Game:
                 elif letter not in yellow:
                     final_output.append(self.color_letter(letter, "yellow"))
                     yellow.append(letter)
-                    keyboard.increase_key_state(letter, "present")
+                    if keyboard:
+                        keyboard.increase_key_state(letter, "present")
 
                 else:
                     final_output.append(self.color_letter(letter, "gray"))
-                    keyboard.increase_key_state(letter, "absent")
+                    if keyboard:
+                        keyboard.increase_key_state(letter, "absent")
 
             elif color == "gray":
                 final_output.append(self.color_letter(letter, "gray"))
-                keyboard.increase_key_state(letter, "absent")
+                if keyboard:
+                    keyboard.increase_key_state(letter, "absent")
 
             elif color == "red":
                 final_output.append(self.color_letter(letter, "red"))
