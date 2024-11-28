@@ -199,17 +199,9 @@ class Game:
                     keyboard.increase_key_state(letter, "correct")
 
             elif color == "yellow":
-                if letter in green:
-                    if (
-                        green.count(letter) != answer.count(letter)
-                        and letter not in yellow
-                    ):
-                        final_output.append(self.color_letter(letter, "yellow"))
+                already_found = green.count(letter) + yellow.count(letter)
 
-                    else:
-                        final_output.append(self.color_letter(letter, "gray"))
-
-                elif letter not in yellow:
+                if already_found < answer.count(letter):
                     final_output.append(self.color_letter(letter, "yellow"))
                     yellow.append(letter)
                     if keyboard:
