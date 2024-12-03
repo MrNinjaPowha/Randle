@@ -3,7 +3,7 @@ import time
 from random import randrange
 
 from .keyboard import Keyboard
-from .consolefunctions import clear_console as cc, color_text, rgb
+from .consolefunctions import clear_console as cc, color_text, RGB
 from .highscoretable import HighscoreTable
 
 
@@ -240,7 +240,7 @@ class Game:
 
         elif color == "gray":
             return (
-                color_text(f" {letter} ", background=rgb(40, 40, 40))
+                color_text(f" {letter} ", background=RGB(40, 40, 40))
                 if not self.settings["colorblind"]
                 else color_text(f" {letter} ", italic=True, faint=True)
             )
